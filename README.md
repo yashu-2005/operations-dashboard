@@ -112,10 +112,10 @@ npm start
 ## 📸 Screenshots
 
 ### Dashboard Overview
-![Dashboard Overview](frontend/public/assets/dashboard.png)
+![Dashboard Overview](C:\Users\yasas\Videos\Captures\personal\tasks.png)
 
 ### Tasks Page
-![Tasks Page](frontend/public/assets/tasks.png)
+![Tasks Page](C:\Users\yasas\Videos\Captures\personal\dashboard.png)
 
 > Make sure your screenshots are saved in `frontend/public/assets/` or adjust the path accordingly.
 
