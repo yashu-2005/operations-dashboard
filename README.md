@@ -51,6 +51,7 @@ operations-dashboard
 │
 ├── frontend
 │   ├── public/
+│   │   └── assets/        <-- Save screenshots here
 │   ├── src/
 │   │   ├── components/
 │   │   ├── App.js
@@ -105,6 +106,18 @@ npm start
 - `DELETE /api/metrics/:id` – Delete a metric  
 
 > All endpoints were tested in **Postman** to ensure proper functionality.
+
+---
+
+## 📸 Screenshots
+
+### Dashboard Overview
+![Dashboard Overview](frontend/public/assets/dashboard.png)
+
+### Tasks Page
+![Tasks Page](frontend/public/assets/tasks.png)
+
+> Make sure your screenshots are saved in `frontend/public/assets/` or adjust the path accordingly.
 
 ---
 
