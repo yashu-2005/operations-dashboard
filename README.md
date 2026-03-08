@@ -107,19 +107,6 @@ npm start
 
 > All endpoints were tested in **Postman** to ensure proper functionality.
 
----
-
-## 📸 Screenshots
-
-### Dashboard Overview
-![Dashboard Overview](C:\Users\yasas\Videos\Captures\personal\tasks.png)
-
-### Tasks Page
-![Tasks Page](C:\Users\yasas\Videos\Captures\personal\dashboard.png)
-
-> Make sure your screenshots are saved in `frontend/public/assets/` or adjust the path accordingly.
-
----
 
 ## 🎯 Objectives
 
