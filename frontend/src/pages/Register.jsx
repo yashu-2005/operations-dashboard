@@ -1,12 +1,13 @@
 import { useState } from "react";
+import { useNavigate, Link } from "react-router-dom"; // updated for routing
 import API from "../api/axios";
 import "../styles/login.css";
 
 function Register() {
-
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate(); // for redirecting after registration
 
   const handleRegister = async () => {
     if (!name || !email || !password) {
@@ -15,17 +16,17 @@ function Register() {
     }
 
     try {
-      await API.post("/auth/register", {
+      const response = await API.post("/auth/register", {
         name,
         email,
-        password
+        password,
       });
 
-      alert("Registration successful");
-
+      alert("Registration successful!");
+      navigate("/"); // redirect to login page after successful registration
     } catch (error) {
-      console.log(error);
-      alert("Registration failed");
+      console.error("Registration failed:", error.response?.data || error.message);
+      alert("Registration failed. Please try again.");
     }
   };
 
@@ -60,9 +61,8 @@ function Register() {
         </button>
 
         <p className="register">
-          Already have an account? <a href="/">Login</a>
+          Already have an account? <Link to="/">Login</Link>
         </p>
-
       </div>
     </div>
   );

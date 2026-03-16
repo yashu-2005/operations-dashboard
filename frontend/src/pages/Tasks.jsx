@@ -1,11 +1,11 @@
 // frontend/src/pages/Tasks.jsx
 import { useState } from "react";
-import API from "../api/axios";
 import "../styles/tasks.css";
 import useTasks from "../hooks/useTasks";
 
 function Tasks({ currentUserEmail }) {
-  const { tasks, setTasks, fetchTasks } = useTasks(currentUserEmail);
+  // Use our updated hook with `updateTask` helper
+  const { tasks, setTasks, fetchTasks, updateTask } = useTasks(currentUserEmail);
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -29,9 +29,17 @@ function Tasks({ currentUserEmail }) {
     };
 
     try {
-      await API.post("/tasks", newTask);
-      await fetchTasks(); // refresh tasks from backend
-      // reset form
+      const res = await fetch(`${process.env.REACT_APP_API_URL || "http://localhost:5000"}/tasks`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newTask),
+      });
+      const savedTask = await res.json();
+
+      // Update state locally for instant UI update
+      setTasks((prev) => [...prev, savedTask]);
+
+      // Reset form
       setTitle(""); setDescription(""); setTeam("General");
       setPriority("Low"); setStatus("Pending"); setExpectedCompletionTime("");
     } catch (err) {
@@ -41,19 +49,11 @@ function Tasks({ currentUserEmail }) {
   };
 
   // ---------------- Toggle completion ----------------
-  const toggleComplete = async (task) => {
-    const updatedTask = {
-      ...task,
+  const toggleComplete = (task) => {
+    const updatedFields = {
       status: task.status === "Completed" ? "Pending" : "Completed",
     };
-
-    try {
-      await API.put(`/tasks/${task._id}`, updatedTask);
-      await fetchTasks(); // refresh after update
-    } catch (err) {
-      console.error("Update task error:", err);
-      alert("Failed to update task");
-    }
+    updateTask(task._id, updatedFields); // UI updates instantly
   };
 
   return (
