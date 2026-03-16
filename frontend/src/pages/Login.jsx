@@ -1,7 +1,8 @@
+
 import { FaGoogle, FaFacebook } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useState } from "react";
-import API from "../api/axios"; // now this works
+import API from "../api/axios";
 import "../styles/login.css";
 
 function Login() {
@@ -64,7 +65,7 @@ function Login() {
         </div>
 
         <p className="register">
-          Don’t have an account? <a href="/register">Register</a>
+          Don’t have an account? <Link to="/register">Register</Link>
         </p>
       </div>
     </div>
