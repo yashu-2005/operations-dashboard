@@ -1,0 +1,98 @@
+.dashboard-container {
+  padding: 100px 40px 40px 40px; /* account for fixed navbar */
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  font-family: 'Arial', sans-serif;
+  color: #fff;
+}
+
+/* Title */
+.dashboard-title {
+  text-align: center;
+  margin-bottom: 40px;
+  font-size: 36px;
+  text-shadow: 1px 1px 10px rgba(0,0,0,0.5);
+}
+
+/* ------------------ Stats Cards ------------------ */
+.stats-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-bottom: 50px;
+}
+
+.stat-card {
+  flex: 1 1 200px;
+  padding: 25px 20px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.stat-card h2 {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.stat-card p {
+  font-size: 16px;
+}
+
+/* Colored cards */
+.stat-card.total { background: rgba(102,126,234,0.4); }
+.stat-card.completed { background: rgba(72,187,120,0.4); }
+.stat-card.pending { background: rgba(255,206,84,0.4); color:#000; }
+.stat-card.delayed { background: rgba(245,101,101,0.4); }
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+}
+
+/* ------------------ Pie Chart ------------------ */
+.chart-container {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto 50px auto;
+  background: rgba(255,255,255,0.1);
+  padding: 20px;
+  border-radius: 20px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+}
+
+/* ------------------ Tasks List ------------------ */
+.tasks-list-container {
+  margin-top: 30px;
+}
+
+.tasks-list-container h2 {
+  margin-bottom: 20px;
+  font-size: 28px;
+}
+
+.task-card {
+  padding: 12px 20px;
+  margin-bottom: 12px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.task-card.low { border-left: 5px solid #667eea; }
+.task-card.medium { border-left: 5px solid #ffce54; }
+.task-card.high { border-left: 5px solid #f56565; }
+.task-card.delayed { border-left: 5px solid #ff0000; }
+
+@media (max-width: 768px) {
+  .stats-container { flex-direction: column; }
+}
