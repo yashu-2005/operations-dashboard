@@ -6,10 +6,24 @@ const cors = require("cors");
 
 const app = express();
 
-// ---------------- CORS FIX (IMPORTANT) ----------------
+// ---------------- CORS (FINAL FIX) ----------------
+
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://frontend-seven-rust-77.vercel.app"
+];
 
 app.use(cors({
-  origin: "http://localhost:5173", // frontend URL
+  origin: function (origin, callback) {
+    // allow requests with no origin (like Postman)
+    if (!origin) return callback(null, true);
+
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    } else {
+      return callback(new Error("Not allowed by CORS"));
+    }
+  },
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   credentials: true
 }));
@@ -34,7 +48,7 @@ app.use("/api/insights", insightRoutes);
 // ---------------- TEST ROUTE ----------------
 
 app.get("/", (req, res) => {
-  res.send("Operations Dashboard Backend Running");
+  res.send("Operations Dashboard Backend Running 🚀");
 });
 
 // ---------------- DATABASE ----------------
@@ -42,7 +56,7 @@ app.get("/", (req, res) => {
 const connectDB = async () => {
   try {
     await mongoose.connect(process.env.MONGO_URI);
-    console.log("MongoDB connected");
+    console.log("MongoDB connected ✅");
   } catch (error) {
     console.error("MongoDB connection error:", error.message);
     process.exit(1);
