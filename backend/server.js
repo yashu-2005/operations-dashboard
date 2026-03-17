@@ -2,24 +2,40 @@ require("dotenv").config({ path: __dirname + "/.env" });
 
 const express = require("express");
 const mongoose = require("mongoose");
+const cors = require("cors");
 
 const app = express();
 
-// ✅ 🔥 HARD CORS FIX (WORKS 100%)
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+// ---------------- CORS (FINAL FIX) ----------------
 
-  // handle preflight request
-  if (req.method === "OPTIONS") {
-    return res.sendStatus(200);
-  }
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://frontend-seven-rust-77.vercel.app",
+  "https://frontend-mlgrsao4s-yasaswiniajuru-6100s-projects.vercel.app"
+];
 
-  next();
-});
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      // allow requests with no origin (mobile apps, postman)
+      if (!origin) return callback(null, true);
 
-// ✅ JSON middleware
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      } else {
+        return callback(new Error("CORS not allowed"));
+      }
+    },
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    credentials: true,
+  })
+);
+
+// ✅ handle preflight requests
+app.options("*", cors());
+
+// ---------------- MIDDLEWARE ----------------
+
 app.use(express.json());
 
 // ---------------- ROUTES ----------------
@@ -35,14 +51,20 @@ app.use("/api/insights", insightRoutes);
 // ---------------- TEST ROUTE ----------------
 
 app.get("/", (req, res) => {
-  res.send("Operations Dashboard Backend Running 🚀");
+  res.send("Operations Dashboard Backend Running");
 });
 
 // ---------------- DATABASE ----------------
 
 const connectDB = async () => {
   try {
-    await mongoose.connect(process.env.MONGO_URI);
+    console.log("Mongo URI:", process.env.MONGO_URI);
+
+    await mongoose.connect(process.env.MONGO_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+
     console.log("MongoDB connected ✅");
   } catch (error) {
     console.error("MongoDB connection error:", error.message);
@@ -54,7 +76,7 @@ connectDB();
 
 // ---------------- SERVER ----------------
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 8080;
 
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`Server running on port ${PORT}`);
