@@ -2,21 +2,22 @@ require("dotenv").config({ path: __dirname + "/.env" });
 
 const express = require("express");
 const mongoose = require("mongoose");
-const cors = require("cors");
 
 const app = express();
 
-// ✅ CORS (THIS IS THE FIX)
-app.use(
-  cors({
-    origin: "*", // allow all (for now)
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-  })
-);
+// ✅ 🔥 HARD CORS FIX (WORKS 100%)
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
 
-// ✅ IMPORTANT: handle preflight manually
-app.options("*", cors());
+  // handle preflight request
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(200);
+  }
+
+  next();
+});
 
 // ✅ JSON middleware
 app.use(express.json());
