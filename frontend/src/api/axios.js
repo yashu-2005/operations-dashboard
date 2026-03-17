@@ -1,9 +1,9 @@
 // src/api/axios.js
 import axios from "axios";
 
-// Railway backend URL
+// ✅ UPDATED Railway backend URL
 const API = axios.create({
-  baseURL: "https://operations-dashboard-production-87a1.up.railway.app/api",
+  baseURL: "https://operations-dashboard-production-bd43.up.railway.app/api",
   headers: {
     "Content-Type": "application/json",
   },
