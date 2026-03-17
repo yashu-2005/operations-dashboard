@@ -6,16 +6,23 @@ const cors = require("cors");
 
 const app = express();
 
-// ---------------- CORS (FINAL SIMPLE FIX) ----------------
+// ---------------- CORS (FINAL FIX) ----------------
 
-// allow ALL origins dynamically (works for localhost + Vercel + anything)
-app.use(cors({
-  origin: true,
-  credentials: true
-}));
+// Enable CORS
+app.use(cors());
 
-// handle preflight requests
-app.options("*", cors());
+// Handle preflight requests manually (VERY IMPORTANT)
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(200);
+  }
+
+  next();
+});
 
 // ---------------- MIDDLEWARE ----------------
 
