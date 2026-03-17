@@ -6,17 +6,14 @@ const cors = require("cors");
 
 const app = express();
 
-// ---------------- CORS (FINAL FIX) ----------------
+// ---------------- 🔥 STEP 1: FORCE CORS HEADERS ----------------
 
-// Enable CORS
-app.use(cors());
-
-// Handle preflight requests manually (VERY IMPORTANT)
 app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
 
+  // Handle preflight
   if (req.method === "OPTIONS") {
     return res.sendStatus(200);
   }
@@ -24,11 +21,12 @@ app.use((req, res, next) => {
   next();
 });
 
-// ---------------- MIDDLEWARE ----------------
+// ---------------- 🔥 STEP 2: CORS + JSON ----------------
 
+app.use(cors());
 app.use(express.json());
 
-// ---------------- ROUTES ----------------
+// ---------------- 🔥 STEP 3: ROUTES ----------------
 
 const authRoutes = require("./routes/auth");
 const taskRoutes = require("./routes/tasks");
@@ -38,13 +36,13 @@ app.use("/api/auth", authRoutes);
 app.use("/api/tasks", taskRoutes);
 app.use("/api/insights", insightRoutes);
 
-// ---------------- TEST ROUTE ----------------
+// ---------------- 🔥 STEP 4: TEST ROUTE ----------------
 
 app.get("/", (req, res) => {
   res.send("Operations Dashboard Backend Running 🚀");
 });
 
-// ---------------- DATABASE ----------------
+// ---------------- 🔥 STEP 5: DATABASE ----------------
 
 const connectDB = async () => {
   try {
@@ -58,7 +56,7 @@ const connectDB = async () => {
 
 connectDB();
 
-// ---------------- SERVER ----------------
+// ---------------- 🔥 STEP 6: SERVER ----------------
 
 const PORT = process.env.PORT || 5000;
 
