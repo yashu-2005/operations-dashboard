@@ -6,26 +6,11 @@ const cors = require("cors");
 
 const app = express();
 
-// ---------------- CORS (FINAL PERMANENT FIX) ----------------
+// ---------------- CORS (FINAL SIMPLE FIX) ----------------
 
+// allow ALL origins dynamically (works for localhost + Vercel + anything)
 app.use(cors({
-  origin: function (origin, callback) {
-    // allow requests with no origin (Postman, mobile apps)
-    if (!origin) return callback(null, true);
-
-    // allow localhost (development)
-    if (origin.startsWith("http://localhost")) {
-      return callback(null, true);
-    }
-
-    // allow ALL Vercel deployments
-    if (origin.includes("vercel.app")) {
-      return callback(null, true);
-    }
-
-    return callback(new Error("Not allowed by CORS"));
-  },
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  origin: true,
   credentials: true
 }));
 
