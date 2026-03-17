@@ -6,37 +6,28 @@ const cors = require("cors");
 
 const app = express();
 
-// ---------------- CORS (FINAL FIX) ----------------
-
-const allowedOrigins = [
-  "http://localhost:5173",
-  "https://frontend-seven-rust-77.vercel.app",
-  "https://frontend-mlgrsao4s-yasaswiniajuru-6100s-projects.vercel.app"
-];
+// ---------------- CORS (SAFE + DEBUG) ----------------
 
 app.use(
   cors({
-    origin: function (origin, callback) {
-      // allow requests with no origin (mobile apps, postman)
-      if (!origin) return callback(null, true);
-
-      if (allowedOrigins.includes(origin)) {
-        return callback(null, true);
-      } else {
-        return callback(new Error("CORS not allowed"));
-      }
-    },
+    origin: "*", // 🔥 allow all (for now to debug)
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    credentials: true,
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
-// ✅ handle preflight requests
+// ✅ handle preflight
 app.options("*", cors());
 
 // ---------------- MIDDLEWARE ----------------
 
 app.use(express.json());
+
+// ---------------- REQUEST LOGGER ----------------
+app.use((req, res, next) => {
+  console.log(`➡️ ${req.method} ${req.url}`);
+  next();
+});
 
 // ---------------- ROUTES ----------------
 
@@ -60,10 +51,7 @@ const connectDB = async () => {
   try {
     console.log("Mongo URI:", process.env.MONGO_URI);
 
-    await mongoose.connect(process.env.MONGO_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    await mongoose.connect(process.env.MONGO_URI);
 
     console.log("MongoDB connected ✅");
   } catch (error) {
@@ -73,6 +61,16 @@ const connectDB = async () => {
 };
 
 connectDB();
+
+// ---------------- ERROR HANDLER ----------------
+
+app.use((err, req, res, next) => {
+  console.error("🔥 GLOBAL ERROR:", err);
+  res.status(500).json({
+    msg: "Server crashed",
+    error: err.message,
+  });
+});
 
 // ---------------- SERVER ----------------
 
