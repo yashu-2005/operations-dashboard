@@ -6,9 +6,18 @@ const cors = require("cors");
 
 const app = express();
 
-// ---------------- MIDDLEWARE ----------------
+// ---------------- CORS FIX (IMPORTANT) ----------------
 
-app.use(cors()); // allow all origins
+app.use(cors({
+  origin: "http://localhost:5173", // frontend URL
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  credentials: true
+}));
+
+// handle preflight requests
+app.options("*", cors());
+
+// ---------------- MIDDLEWARE ----------------
 
 app.use(express.json());
 
