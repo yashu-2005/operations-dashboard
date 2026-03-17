@@ -6,23 +6,24 @@ const cors = require("cors");
 
 const app = express();
 
-// ---------------- CORS (FINAL FIX) ----------------
-
-const allowedOrigins = [
-  "http://localhost:5173",
-  "https://frontend-seven-rust-77.vercel.app"
-];
+// ---------------- CORS (FINAL PERMANENT FIX) ----------------
 
 app.use(cors({
   origin: function (origin, callback) {
-    // allow requests with no origin (like Postman)
+    // allow requests with no origin (Postman, mobile apps)
     if (!origin) return callback(null, true);
 
-    if (allowedOrigins.includes(origin)) {
+    // allow localhost (development)
+    if (origin.startsWith("http://localhost")) {
       return callback(null, true);
-    } else {
-      return callback(new Error("Not allowed by CORS"));
     }
+
+    // allow ALL Vercel deployments
+    if (origin.includes("vercel.app")) {
+      return callback(null, true);
+    }
+
+    return callback(new Error("Not allowed by CORS"));
   },
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   credentials: true
