@@ -2,28 +2,36 @@ require("dotenv").config({ path: __dirname + "/.env" });
 
 const express = require("express");
 const mongoose = require("mongoose");
-const cors = require("cors");
 
 const app = express();
 
-// ---------------- CORS (SAFE + DEBUG) ----------------
+// ---------------- 🔥 HARD CORS FIX ----------------
 
-app.use(
-  cors({
-    origin: "*", // 🔥 allow all (for now to debug)
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-  })
-);
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+  );
+  res.header(
+    "Access-Control-Allow-Methods",
+    "GET, POST, PUT, DELETE, OPTIONS"
+  );
 
-// ✅ handle preflight
-app.options("*", cors());
+  // ✅ Handle preflight
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(200);
+  }
+
+  next();
+});
 
 // ---------------- MIDDLEWARE ----------------
 
 app.use(express.json());
 
 // ---------------- REQUEST LOGGER ----------------
+
 app.use((req, res, next) => {
   console.log(`➡️ ${req.method} ${req.url}`);
   next();
