@@ -1,0 +1,87 @@
+.users-container {
+  padding: 40px;
+  text-align: center;
+}
+
+.add-user {
+  margin: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.add-user input {
+  padding: 8px;
+  width: 200px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.add-user button {
+  padding: 8px 15px;
+  background: #667eea;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.add-user button:hover {
+  background: #5a67d8;
+}
+
+table {
+  margin: auto;
+  border-collapse: collapse;
+  width: 70%;
+}
+
+th,
+td {
+  border: 1px solid #ddd;
+  padding: 10px;
+}
+
+th {
+  background: #667eea;
+  color: white;
+}
+
+.edit-btn {
+  background: #ffbb33;
+  border: none;
+  padding: 5px 10px;
+  margin-right: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.edit-btn:hover {
+  background: #ffa500;
+}
+
+.delete-btn {
+  background: #ff4d4f;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  color: white;
+}
+
+.delete-btn:hover {
+  background: #d9363e;
+}
+.back-btn {
+  background: #667eea;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.back-btn:hover {
+  background: #556cd6;
+}
